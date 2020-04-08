@@ -4,6 +4,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @SpringBootApplication
 public class DemoApplication {
 
@@ -13,10 +16,12 @@ public class DemoApplication {
 
         while(true) {
             //调用消息发送类中的消息发送方法
-            sender.send();
-            sender.send1();
-            sender.send2();
-
+//            sender.send();
+//            sender.send1();
+//            sender.send2();
+//            sender.sendLog();
+//            sender.send3();
+            sender.sendFile();
             try {
                 Thread.sleep(3000);
             } catch (InterruptedException e) {

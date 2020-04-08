@@ -1,6 +1,7 @@
 package com.kafka.example.demo.config;
 
 import com.kafka.example.demo.config.properties.KafkaProperties;
+import com.kafka.example.demo.serializer.FileSerializer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -27,6 +28,7 @@ public class KafkaProducerConfig {
     @Autowired
     private KafkaProperties kafkaProperties;
 
+    /**********   kafka String producer   **********/
     public Map<String, Object> producerConfig(){
         Map<String, Object> props = new HashMap<>();
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaProperties.getBootstrapServers());
@@ -45,6 +47,27 @@ public class KafkaProducerConfig {
     @Bean
     public KafkaTemplate<String, String> kafkaTemplate() {
         return new KafkaTemplate<String, String>(producerFactory());
+    }
+
+    /**********   kafka Map producer   **********/
+    public Map<String, Object> producerMapConfig(){
+        Map<String, Object> props = new HashMap<>();
+        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaProperties.getBootstrapServers());
+        props.put(ProducerConfig.RETRIES_CONFIG, kafkaProperties.getRetries());
+        props.put(ProducerConfig.BATCH_SIZE_CONFIG, kafkaProperties.getBatchSize());
+        props.put(ProducerConfig.BUFFER_MEMORY_CONFIG, kafkaProperties.getBufferMemory());
+        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, kafkaProperties.getKeySerializer());
+        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, FileSerializer.class);
+        return props;
+    }
+
+    public ProducerFactory<String, Map<String, Object>> producerMapFactory(){
+        return new DefaultKafkaProducerFactory<>(producerMapConfig());
+    }
+
+    @Bean
+    public KafkaTemplate<String, Map<String, Object>> kafkaMapTemplate() {
+        return new KafkaTemplate<String, Map<String, Object>>(producerMapFactory());
     }
 
 }
