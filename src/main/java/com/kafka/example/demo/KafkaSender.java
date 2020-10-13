@@ -6,6 +6,13 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.Instant;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -34,7 +41,14 @@ public class KafkaSender {
 
     //发送消息方法
     public void sendLog() {
-        kafkaTemplate.send(new ProducerRecord("network.log", "{\"host\":\"192.168.1.200\",\"deploymentId\":\"1\",\"tag\":\"network.local7.err\",\"time\":\" "+ new Date() +"\",\"message\":\"1754824: -Process= \\\"TTY Background\\\", ipl= 6, pid= 26\",\"priority\":\"err\",\"facility\":\"local7\"}"));
+//        kafkaTemplate.send(new ProducerRecord("network.log", "{\"host\":\"192.168.1.200\",\"deploymentId\":\"1\",\"tag\":\"network.local7.err\",\"time\":\"1584344951\",\"message\":\"1754824: -Process= \\\"TTY Background\\\", ipl= 6, pid= 26\",\"priority\":\"err\",\"facility\":\"local7\"}"));
+        kafkaTemplate.send(new ProducerRecord("kafka_test2", "{\"message\":\"11982: 1w1d: %CDP-4-DUPLEX_MISMATCH: duplex mismatch discovered on FastEthernet0/14 (not half duplex), with Core Ethernet0/0 (half duplex).\",\"priority\":\"warn\",\"facility\":\"local7\",\"source\":\"192.168.1.200\",\"hostname\":\"cede6b26c3ea\",\"time\":"+ Instant.now().getEpochSecond() +",\"tag\":\"network.local7.warn\"}"));
+    }
+
+    //发送消息方法
+    public void sendReload() {
+//        kafkaTemplate.send(new ProducerRecord("network.log", "{\"host\":\"192.168.1.200\",\"deploymentId\":\"1\",\"tag\":\"network.local7.err\",\"time\":\"1584344951\",\"message\":\"1754824: -Process= \\\"TTY Background\\\", ipl= 6, pid= 26\",\"priority\":\"err\",\"facility\":\"local7\"}"));
+        kafkaTemplate.send(new ProducerRecord("network.log", "{\"type\":\"event_reload\"}"));
     }
 
     //发送消息方法
@@ -74,4 +88,9 @@ public class KafkaSender {
             e.printStackTrace();
         }
     }
+
+    public void sendPlugin() {
+        kafkaTemplate.send(new ProducerRecord("KAFKA-HANDLE","Hi Plugin"));
+    }
+
 }

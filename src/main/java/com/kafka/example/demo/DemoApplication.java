@@ -19,11 +19,14 @@ public class DemoApplication {
 //            sender.send();
 //            sender.send1();
 //            sender.send2();
-//            sender.sendLog();
+            sender.sendLog();
+//            sender.sendPlugin();
+//            sender.sendReload();
 //            sender.send3();
-            sender.sendFile();
+//            sender.sendFile();
             try {
-                Thread.sleep(3000);
+                Thread.sleep(3000 * 10);
+//                Thread.sleep(10);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
